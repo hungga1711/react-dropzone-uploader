@@ -170,6 +170,7 @@ export interface IInputProps extends ICommonProps {
   content?: React.ReactNode
   withFilesContent?: React.ReactNode
   onFiles: (files: File[]) => void
+  required: boolean
 }
 
 export interface ISubmitButtonProps extends ICommonProps {
@@ -212,6 +213,8 @@ export interface IDropzoneProps {
   timeout?: number
 
   initialFiles?: File[]
+
+  required: boolean
 
   /* component customization */
   disabled: boolean | CustomizationFunction<boolean>
@@ -533,10 +536,10 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       if (xhr.status > 0 && xhr.status < 400) {
         fileWithMeta.meta.percent = 100
         if (xhr.readyState === 2) fileWithMeta.meta.status = 'headers_received'
-        if (xhr.readyState === 4){
+        if (xhr.readyState === 4) {
           fileWithMeta.meta.status = 'done'
           fileWithMeta.meta.response = xhr.response
-        } 
+        }
         this.handleChangeStatus(fileWithMeta)
         this.forceUpdate()
       }
@@ -581,6 +584,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       PreviewComponent,
       SubmitButtonComponent,
       LayoutComponent,
+      required,
     } = this.props
 
     const { active, dragged } = this.state
@@ -667,6 +671,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
           onFiles={this.handleFiles} // see: https://stackoverflow.com/questions/39484895
           files={files}
           extra={extra}
+          required={required || false}
         />
       ) : null
 
@@ -748,6 +753,7 @@ Dropzone.defaultProps = {
   classNames: {},
   styles: {},
   addClassNames: {},
+  required: false,
 }
 
 // @ts-ignore
@@ -794,6 +800,8 @@ Dropzone.propTypes = {
   PreviewComponent: PropTypes.func,
   SubmitButtonComponent: PropTypes.func,
   LayoutComponent: PropTypes.func,
+
+  required: PropTypes.bool,
 }
 
 export default Dropzone

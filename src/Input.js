@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 const Input = (props) => {
-    const { className, labelClassName, labelWithFilesClassName, style, labelStyle, labelWithFilesStyle, getFilesFromEvent, accept, multiple, disabled, content, withFilesContent, onFiles, files, } = props;
+    const { className, labelClassName, labelWithFilesClassName, style, labelStyle, labelWithFilesStyle, getFilesFromEvent, accept, multiple, disabled, content, withFilesContent, onFiles, files, required, } = props;
     return (React.createElement("label", { className: files.length > 0 ? labelWithFilesClassName : labelClassName, style: files.length > 0 ? labelWithFilesStyle : labelStyle },
         files.length > 0 ? withFilesContent : content,
         React.createElement("input", { className: className, style: style, type: "file", accept: accept, multiple: multiple, disabled: disabled, onChange: async (e) => {
@@ -10,7 +10,7 @@ const Input = (props) => {
                 onFiles(chosenFiles);
                 //@ts-ignore
                 target.value = null;
-            } })));
+            }, required: required })));
 };
 Input.propTypes = {
     className: PropTypes.string,
@@ -37,5 +37,6 @@ Input.propTypes = {
         maxSizeBytes: PropTypes.number.isRequired,
         maxFiles: PropTypes.number.isRequired,
     }).isRequired,
+    required: PropTypes.bool,
 };
 export default Input;

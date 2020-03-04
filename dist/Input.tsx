@@ -19,6 +19,7 @@ const Input = (props: IInputProps) => {
     withFilesContent,
     onFiles,
     files,
+    required,
   } = props
 
   return (
@@ -41,6 +42,7 @@ const Input = (props: IInputProps) => {
           //@ts-ignore
           target.value = null
         }}
+        required={required}
       />
     </label>
   )
@@ -71,6 +73,7 @@ Input.propTypes = {
     maxSizeBytes: PropTypes.number.isRequired,
     maxFiles: PropTypes.number.isRequired,
   }).isRequired,
+  required: PropTypes.bool,
 }
 
 export default Input

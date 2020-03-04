@@ -299,7 +299,7 @@ class Dropzone extends React.Component {
             this.handleCancel(fileWithMeta);
     }
     render() {
-        const { accept, multiple, maxFiles, minSizeBytes, maxSizeBytes, onSubmit, getUploadParams, disabled, canCancel, canRemove, canRestart, inputContent, inputWithFilesContent, submitButtonDisabled, submitButtonContent, classNames, styles, addClassNames, InputComponent, PreviewComponent, SubmitButtonComponent, LayoutComponent, } = this.props;
+        const { accept, multiple, maxFiles, minSizeBytes, maxSizeBytes, onSubmit, getUploadParams, disabled, canCancel, canRemove, canRestart, inputContent, inputWithFilesContent, submitButtonDisabled, submitButtonContent, classNames, styles, addClassNames, InputComponent, PreviewComponent, SubmitButtonComponent, LayoutComponent, required, } = this.props;
         const { active, dragged } = this.state;
         const reject = dragged.some(file => file.type !== 'application/x-moz-file' && !accepts(file, accept));
         const extra = { active, reject, dragged, accept, multiple, minSizeBytes, maxSizeBytes, maxFiles };
@@ -320,7 +320,7 @@ class Dropzone extends React.Component {
         }
         const input = InputComponent !== null ? (
         //@ts-ignore
-        React.createElement(Input, { className: inputClassName, labelClassName: inputLabelClassName, labelWithFilesClassName: inputLabelWithFilesClassName, style: inputStyle, labelStyle: inputLabelStyle, labelWithFilesStyle: inputLabelWithFilesStyle, getFilesFromEvent: this.getFilesFromEvent(), accept: accept, multiple: multiple, disabled: dropzoneDisabled, content: resolveValue(inputContent, files, extra), withFilesContent: resolveValue(inputWithFilesContent, files, extra), onFiles: this.handleFiles, files: files, extra: extra })) : null;
+        React.createElement(Input, { className: inputClassName, labelClassName: inputLabelClassName, labelWithFilesClassName: inputLabelWithFilesClassName, style: inputStyle, labelStyle: inputLabelStyle, labelWithFilesStyle: inputLabelWithFilesStyle, getFilesFromEvent: this.getFilesFromEvent(), accept: accept, multiple: multiple, disabled: dropzoneDisabled, content: resolveValue(inputContent, files, extra), withFilesContent: resolveValue(inputWithFilesContent, files, extra), onFiles: this.handleFiles, files: files, extra: extra, required: required || false })) : null;
         const submitButton = onSubmit && SubmitButtonComponent !== null ? (
         //@ts-ignore
         React.createElement(SubmitButton, { className: submitButtonContainerClassName, buttonClassName: submitButtonClassName, style: submitButtonContainerStyle, buttonStyle: submitButtonStyle, disabled: resolveValue(submitButtonDisabled, files, extra), content: resolveValue(submitButtonContent, files, extra), onSubmit: this.handleSubmit, files: files, extra: extra })) : null;
@@ -375,6 +375,7 @@ Dropzone.defaultProps = {
     classNames: {},
     styles: {},
     addClassNames: {},
+    required: false,
 };
 // @ts-ignore
 Dropzone.propTypes = {
@@ -409,6 +410,7 @@ Dropzone.propTypes = {
     PreviewComponent: PropTypes.func,
     SubmitButtonComponent: PropTypes.func,
     LayoutComponent: PropTypes.func,
+    required: PropTypes.bool,
 };
 export default Dropzone;
 export { LayoutDefault as Layout, InputDefault as Input, PreviewDefault as Preview, SubmitButtonDefault as SubmitButton, formatBytes, formatDuration, accepts, defaultClassNames, defaultGetFilesFromEvent as getFilesFromEvent, };
